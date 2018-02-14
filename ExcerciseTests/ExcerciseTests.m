@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "Item.h"
 
 @interface ExcerciseTests : XCTestCase
 
@@ -57,5 +58,48 @@
     //[self waitForExpectationsWithTimeout:30 handler:nil];
 }
 
+- (void)testParsingNilResponse {
+    NSDictionary *response = nil;
+    Item *item = [[Item alloc] initWithDictionary:response];
+    if (item.title != nil) {
+        XCTFail(@"Title should be nil while there is no data available");
+    }
+    else if (item.details != nil) {
+        XCTFail(@"Details should be nil while there is no data available");
+    }
+}
+
+- (void)testParsingEmptyResponse {
+    NSDictionary *response = @{};
+    Item *item = [[Item alloc] initWithDictionary:response];
+    if (item.title != nil) {
+        XCTFail(@"Title should be nil while there is no data available");
+    }
+    else if (item.details != nil) {
+        XCTFail(@"Details should be nil while there is no data available");
+    }
+}
+
+- (void)testParsingNullResponse {
+    NSDictionary *response = @{@"title":NSNull.null,@"rows":NSNull.null};
+    Item *item = [[Item alloc] initWithDictionary:response];
+    if (item.title != nil) {
+        XCTFail(@"Title should be nil while there is Null data available");
+    }
+    else if (item.details != nil) {
+        XCTFail(@"Details should be nil while there is Null data available");
+    }
+}
+
+- (void)testParsingTitleOnlyResponse {
+    NSDictionary *response = @{@"title":@"Title"};
+    Item *item = [[Item alloc] initWithDictionary:response];
+    if (item.title == nil) {
+        XCTFail(@"Title should not be nil while response having title");
+    }
+    else if (item.details != nil) {
+        XCTFail(@"Details should be nil while there is no data available");
+    }
+}
 
 @end

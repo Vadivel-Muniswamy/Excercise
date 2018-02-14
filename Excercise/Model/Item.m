@@ -8,24 +8,27 @@
 
 #import "Item.h"
 #import "ItemDetail.h"
+#import "Util.h"
 
 @implementation Item
 - (instancetype) initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     if (self) {
-        _title = [dictionary objectForKey:@"title"];
+        _title = [Util validateObject:[dictionary objectForKey:@"title"]];
         
-        NSMutableArray *rows = [[NSMutableArray alloc] init];
+        NSArray *details = [Util validateObject:[dictionary objectForKey:@"rows"]];
         
-        for (NSDictionary *detail in [dictionary objectForKey:@"rows"]) {
-            ItemDetail *d = [[ItemDetail alloc] initWithDictionary:detail];
-
-            if (d.title) {
-                [rows addObject:d];
+        if (details.count) {
+            NSMutableArray *rows = [[NSMutableArray alloc] init];
+            for (NSDictionary *detail in details) {
+                ItemDetail *d = [[ItemDetail alloc] initWithDictionary:detail];
+                
+                if (d.title) {
+                    [rows addObject:d];
+                }
             }
+            _details = rows;
         }
-        
-        _details = rows;
     }
     return self;
 }
