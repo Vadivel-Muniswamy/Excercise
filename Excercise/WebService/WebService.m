@@ -15,7 +15,7 @@
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     NSURL *url = [NSURL URLWithString:pUrl];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-//    request;
+
     [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
         
         if ([pUrl isEqualToString:@"http://images.findicons.com/files/icons/662/world_flag/128/flag_of_canada.png"]) {
